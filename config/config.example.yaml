@@ -1,0 +1,17 @@
+app:
+  env: local
+  #  env: testing
+  #  env: development
+  #  env: staging
+  #  env: production
+  mock_auth: true
+  name: internship-server
+  is_maintenance_mode: false
+  skip_maintenance_mode_token: xxxxxxxxxxxxxxxxxxxxxxxxxxx
+  port: 8888
+db:
+  user: xxxxxxxx
+  password: xxxxxxxx
+  host: xxxxxxxx
+  name: xxxxxxxx
+  port: 5432

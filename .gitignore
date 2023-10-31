@@ -1,0 +1,80 @@
+bin
+
+
+# Created by .ignore support plugin (hsz.mobi)
+### Go template
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+### Go template
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# firebase
+firebase-admin-credentials.json
+
+# direnv
+.envrc
+
+tmp
+
+# User-specific stuff
+.idea
+
+# File-based project format
+*.iws
+
+.DS_Store
+
+firebase-admin-credentials-staging.json
+infrastructure/datastore/driver/firebase_auth/firebase-admin-credentials.json
+firebase-config-staging.json
+firebase-config.json
+.env
+.air.toml
+!.env.testing
+cmd/tmp.go
+tmp_*
+
+database.sqlite
+
+internal/config/config.yaml
+internal/config/config.local.yaml
+internal/config/config.dev.yaml
+internal/config/config.stg.yaml
+
+docs/*
+!docs/.git-keep
+
+main
+main.zip
+
+google_credentials.json
+config.yaml
+config.local.yaml
