@@ -66,6 +66,16 @@ cp .envrc.example .envrc
 direnv allow
 ```
 
+### DI
+
+wireを利用しています。
+
+`container.go` を変更するたびに以下のコマンドを実行してください。
+
+```sh
+make wire-gen
+```
+
 ### CLIをインストール
 
 ```sh
