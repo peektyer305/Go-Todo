@@ -16,7 +16,7 @@ var providerSet = wire.NewSet(
 
 	// client
 	auth.NewAuthMockClient,
-	// Note: ↑をコメントアウトして↓のコメントアウトを解除すして wire genすると mock2 が使われて SamplePingPong で println される文字列が変わる
+	// Note: ↑をコメントアウトして↓のコメントアウトを解除して wire gen すると mock2 が使われて SamplePingPong で println される文字列が変わる
 	//auth.NewAuthMock2Client,
 
 	// Repository
