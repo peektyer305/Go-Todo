@@ -51,6 +51,12 @@ migrationファイルを配置します。
 
 ## 環境構築
 
+### goをインストール
+
+[asdf](https://asdf-vm.com/)を利用しています。
+
+.tool-versionに利用しているgoのバージョンが記載されています。
+
 ### config/config.example.yamlをコピー
 
 ```sh
