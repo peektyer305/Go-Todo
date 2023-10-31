@@ -7,7 +7,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"kiravia.com/internship-go-api/config"
-	"kiravia.com/internship-go-api/infrastructure"
 	"kiravia.com/internship-go-api/presentation/rest_user"
 	"net/http"
 	"os"
@@ -16,11 +15,12 @@ import (
 )
 
 func main() {
-	db := infrastructure.NewGormPostgres()
-	defer func() {
-		d, _ := db.DB()
-		d.Close()
-	}()
+	// ToDo: DockerComposeを利用してdatabaseを作成することができたら、以下のコメントアウトを外す
+	//db := infrastructure.NewGormPostgres()
+	//defer func() {
+	//	d, _ := db.DB()
+	//	d.Close()
+	//}()
 
 	engine := echo.New()
 	engine.Debug = true

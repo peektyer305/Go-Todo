@@ -78,3 +78,4 @@ main.zip
 google_credentials.json
 config.yaml
 config.local.yaml
+wire_gen.go
