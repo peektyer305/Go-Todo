@@ -8,6 +8,7 @@ import (
 	"kiravia.com/internship-go-api/application/sample"
 	"kiravia.com/internship-go-api/infrastructure"
 	"kiravia.com/internship-go-api/infrastructure/auth"
+	"kiravia.com/internship-go-api/infrastructure/database"
 )
 
 var providerSet = wire.NewSet(
@@ -20,6 +21,7 @@ var providerSet = wire.NewSet(
 	//auth.NewAuthMock2Client,
 
 	// Repository
+	database.NewSampleRepository,
 
 	// queryService
 
