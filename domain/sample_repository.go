@@ -7,6 +7,6 @@ import (
 )
 
 type ISampleRepository interface {
-	FindById(ctx context.Context, id string) (*entity.Sample, error)
-	Save(ctx context.Context, sample entity.Sample) (*entity.Sample, error)
+	FindById(ctx context.Context, id string) (*entity.Todo, error)
+	Save(ctx context.Context, sample entity.Todo) (*entity.Todo, error)
 }

@@ -2,8 +2,6 @@ package model
 
 import (
 	"time"
-
-	"kiravia.com/internship-go-api/domain/entity"
 )
 
 type Sample struct {
