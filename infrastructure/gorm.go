@@ -2,13 +2,14 @@ package infrastructure
 
 import (
 	"fmt"
+	"sync"
+	"time"
+
+	"github.com/peektyer305/Go-Todo/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 	"gorm.io/gorm/logger"
-	"kiravia.com/internship-go-api/config"
-	"sync"
-	"time"
 )
 
 var gormPostgresInstance *gorm.DB

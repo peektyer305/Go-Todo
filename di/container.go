@@ -5,10 +5,11 @@ package di
 
 import (
 	"github.com/google/wire"
-	"kiravia.com/internship-go-api/application/sample"
-	"kiravia.com/internship-go-api/infrastructure"
-	"kiravia.com/internship-go-api/infrastructure/auth"
-	"kiravia.com/internship-go-api/infrastructure/database"
+	"github.com/peektyer305/Go-Todo/application/todo"
+	"github.com/peektyer305/Go-Todo/domain/repository"
+	"github.com/peektyer305/Go-Todo/infrastructure"
+	"github.com/peektyer305/Go-Todo/infrastructure/database"
+	"gorm.io/gorm"
 )
 
 var providerSet = wire.NewSet(
@@ -16,24 +17,27 @@ var providerSet = wire.NewSet(
 	infrastructure.NewGormPostgres,
 
 	// client
-	auth.NewAuthMockClient,
+	//auth.NewAuthMockClient,
 	// Note: ↑をコメントアウトして↓のコメントアウトを解除して wire gen すると mock2 が使われて SamplePingPong で println される文字列が変わる
 	//auth.NewAuthMock2Client,
 
 	// Repository
-	database.NewSampleRepository,
-
+	NewTodoRepository,
 	// queryService
 
 	// domainService
 
 	// useCase
-	sample.NewSamplePingPong,
+	NewTodoUseCase,
 )
+func NewTodoRepository(db *gorm.DB) repository.ITodoRepository {
+	return &database.TodoRepository{
+		Db: db,
+	}
+}
 
-func SamplePingPong() *sample.PingPong {
-	wire.Build(
-		providerSet,
-	)
-	return nil
+func NewTodoUseCase(todoRepo repository.ITodoRepository) *todo.TodoUseCase {
+	return &todo.TodoUseCase{
+		TodoRepository: todoRepo,
+	}
 }

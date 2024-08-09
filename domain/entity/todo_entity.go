@@ -2,14 +2,16 @@ package entity
 
 import (
 	"time"
+
+	valueobject "github.com/peektyer305/Go-Todo/domain/value_object"
 )
 
 type Todo struct {
 	id    valueobject.TodoId    
 	title      string
-	body 	 string
-	dueDate   time.Time
-	completedAt time.Time
+	body 	 *string
+	dueDate   *time.Time
+	completedAt *time.Time
 	createdAt time.Time
 	updatedAt time.Time
 }
@@ -22,15 +24,15 @@ func (t *Todo) Title() string {
 	return t.title
 }
 
-func (t *Todo) Body() string {
+func (t *Todo) Body() *string {
 	return t.body
 }
 
-func (t *Todo) DueDate() time.Time {
-	return t.dueDate
+func (t *Todo) DueDate() *time.Time {
+	return t.completedAt
 }
 
-func (t *Todo) CompletedAt() time.Time {
+func (t *Todo) CompletedAt() *time.Time {
 	return t.completedAt
 }
 
@@ -46,9 +48,9 @@ func  NewTodo(id valueobject.TodoId, title string, body string, dueDate time.Tim
 	return Todo{
 		id: id,
 		title: title,
-		body: body,
-		dueDate: dueDate,
-		completedAt: completedAt,
+		body: &body,
+		dueDate: &dueDate,
+		completedAt: &completedAt,
 		createdAt: createdAt,
 		updatedAt: updatedAt,
 	}

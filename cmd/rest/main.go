@@ -4,14 +4,15 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-	"kiravia.com/internship-go-api/config"
-	"kiravia.com/internship-go-api/presentation/rest_user"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/peektyer305/Go-Todo/config"
+	"github.com/peektyer305/Go-Todo/presentation/rest_user"
 )
 
 func main() {
