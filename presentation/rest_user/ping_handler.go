@@ -2,9 +2,11 @@ package rest_user
 
 import (
 	"fmt"
-	"github.com/labstack/echo/v4"
-	"kiravia.com/internship-go-api/di"
 	"net/http"
+
+	"github.com/peektyer305/Go-Todo/di"
+
+	"github.com/labstack/echo/v4"
 )
 
 type PingHandler struct {

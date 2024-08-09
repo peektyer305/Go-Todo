@@ -3,8 +3,9 @@ package sample
 import (
 	"context"
 	"fmt"
-	"kiravia.com/internship-go-api/domain"
 	"time"
+
+	"github.com/peektyer305/Go-Todo/domain"
 )
 
 type PingPong struct {

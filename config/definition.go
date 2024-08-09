@@ -3,16 +3,15 @@ package config
 import (
 	"bytes"
 	_ "embed"
-	"github.com/spf13/viper"
 	"os"
 	"strings"
+
+	"github.com/spf13/viper"
 )
 
 //go:embed config.yaml
 var configYaml []byte
 
-//go:embed google_credentials.json
-var googleCredentialsJson []byte
 
 var Conf *config
 
@@ -84,6 +83,4 @@ func init() {
 	if err := viper.Unmarshal(&Conf); err != nil {
 		panic(err)
 	}
-
-	Conf.Google.CredentialsJson = googleCredentialsJson
 }
