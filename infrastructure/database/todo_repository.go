@@ -15,7 +15,7 @@ type TodoRepository struct {
 	Db *gorm.DB
 }
 
-func (t TodoRepository) FindById (ctx context.Context, id valueobject.TodoId) (*entity.Todo, error) {
+func (t *TodoRepository) FindById (ctx context.Context, id valueobject.TodoId) (*entity.Todo, error) {
 	conn  := t.Db.WithContext(ctx)
 	var todoModel model.Todo
 	if err := conn.Where("id = ?", id).First(&todoModel).Error; err != nil {
@@ -24,7 +24,7 @@ func (t TodoRepository) FindById (ctx context.Context, id valueobject.TodoId) (*
 	return lo.ToPtr(todoModel.ToEntity()), nil
 } 
 
-func (t TodoRepository) FindAllByQuery(ctx context.Context, params entity.FindParams) ([]entity.Todo, error) {
+func (t *TodoRepository) FindAllByQuery(ctx context.Context, params entity.FindParams) ([]entity.Todo, error) {
 	conn := t.Db.WithContext(ctx)
 	var todoModels []model.Todo
 
@@ -66,7 +66,7 @@ func (t TodoRepository) FindAllByQuery(ctx context.Context, params entity.FindPa
 	return todoEntities, nil
 }
 
-func (t TodoRepository) Save(ctx context.Context, todo entity.Todo) (*entity.Todo, error) {
+func (t *TodoRepository) Save(ctx context.Context, todo entity.Todo) (*entity.Todo, error) {
 	conn := t.Db.WithContext(ctx)
 	todoModel := model.NewTodoFromEntity(todo)
 	if err := conn.Save(&todoModel).Error; err != nil {
@@ -75,7 +75,7 @@ func (t TodoRepository) Save(ctx context.Context, todo entity.Todo) (*entity.Tod
 	return lo.ToPtr(todoModel.ToEntity()), nil
 }
 
-func (t TodoRepository) DeleteById(ctx context.Context, id valueobject.TodoId) error {
+func (t *TodoRepository) DeleteById(ctx context.Context, id valueobject.TodoId) error {
 	conn := t.Db.WithContext(ctx)
 	if err := conn.Delete(&model.Todo{}, id).Error; err != nil {
 		return err

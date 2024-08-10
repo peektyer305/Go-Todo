@@ -9,20 +9,18 @@ import (
 )
 
 type TodoUseCase struct {
-	TodoRepository *repository.ITodoRepository
+	TodoRepository repository.ITodoRepository
 }
 
 func (t *TodoUseCase) FindAllByCriterias(ctx context.Context, f entity.FindParams) ([]entity.Todo, error){
-	todos,err := t.TodoRepository.FindAllByQuery(f)	
+	todos,err := t.TodoRepository.FindAllByQuery(ctx,f)	
 	if err != nil {
 		return nil, err
 	}
-	 for _, todo := range todos {
-		todo.
-}
+	return todos, nil
 }
 
-func (t *TodoUseCase) FindById(ctx context.Context id valueobject.TodoId) (*entity.Todo, error) {
+func (t *TodoUseCase) FindById(ctx context.Context, id valueobject.TodoId) (*entity.Todo, error) {
 	todo,err:= t.TodoRepository.FindById(ctx, id)
 	if err != nil {
 		return nil, err
