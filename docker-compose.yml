@@ -1,17 +1,14 @@
-
-
 services:
   postgres:
     image: postgres:latest
     environment:
       POSTGRES_USER: test
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: todoDb
+      POSTGRES_DB: testDb
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      
 
 volumes:
   postgres_data:

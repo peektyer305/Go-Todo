@@ -23,13 +23,13 @@ func (t *Todo) ToEntity() entity.Todo {
 
 func NewTodoFromEntity(todo entity.Todo) Todo {
 	return Todo{
-		Id: todo.Id(),
-		Title: todo.Title(),
-		Body: todo.Body(),
-		DueDate: todo.DueDate(),
-		CompletedAt: todo.CompletedAt(),
-		CreatedAt: todo.CreatedAt(),
-		UpdatedAt: todo.UpdatedAt(),
+		Id: todo.Id,
+		Title: todo.Title,
+		Body: todo.Body,
+		DueDate: todo.DueDate,
+		CompletedAt: todo.CompletedAt,
+		CreatedAt: todo.CreatedAt,
+		UpdatedAt: todo.UpdatedAt,
 		
 	}
 }

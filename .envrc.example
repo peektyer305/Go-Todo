@@ -1,2 +1,2 @@
 export GOOSE_DRIVER=postgres
-export GOOSE_DBSTRING="user=user password=password dbname=local sslmode=disable port=5432 host=127.0.0.1"
+export GOOSE_DBSTRING="user=test password=password dbname=testDb sslmode=disable port=5432 host=127.0.0.1"

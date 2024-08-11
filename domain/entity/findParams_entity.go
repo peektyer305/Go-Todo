@@ -7,10 +7,10 @@ import (
 )
 
 type FindParams struct {
-	Id    *valueobject.TodoId
-	Title *string
-	Body  *string
-	IsCompleted *bool
-	StartDate *time.Time
-	EndDate *time.Time
+	Id    *valueobject.TodoId `json:"id,omitempty"`
+	Title *string `json:"title,omitempty"`
+	Body  *string `json:"body,omitempty"`
+	IsCompleted *bool `json:"isCompleted,omitempty"`
+	StartDate *time.Time `json:"startDate,omitempty"`
+	EndDate *time.Time `json:"endDate,omitempty"`
 }

@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/peektyer305/Go-Todo/domain/entity"
 	valueobject "github.com/peektyer305/Go-Todo/domain/value_object"
 )
 
@@ -30,23 +31,58 @@ func (h TodoHandler) FindById(ctx echo.Context) error{
 }
 
 func (h *TodoHandler) Create(ctx echo.Context) error{
-	
-	return ctx.String(http.StatusOK, "Create Todo")
+	var params entity.CreateParams
+	if err := ctx.Bind(&params); err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
+	todo,err := di.TodoUseCase.Create(ctx.Request().Context(), params)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, err)
+	}
+	return ctx.JSON(http.StatusOK, todo)
 }
 
 func (h *TodoHandler) UpdateById(ctx echo.Context) error{
-	
-	return ctx.String(http.StatusOK, "Update Todo")
+	var params entity.UpdateParams
+	if err := ctx.Bind(&params); err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
+	id := ctx.Param("id")
+	todoId, err := valueobject.NewTodoId(id)
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
+	todo,err := di.TodoUseCase.UpdateById(ctx.Request().Context(), todoId, params)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, err)
+	}
+	return ctx.JSON(http.StatusOK, todo)
 }
 
 func (h *TodoHandler) DeleteById(ctx echo.Context) error{
-	
-	return ctx.String(http.StatusOK, "Delete Todo")
+	id := ctx.Param("id")
+	todoId, err := valueobject.NewTodoId(id)
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
+	err = di.TodoUseCase.DeleteById(ctx.Request().Context(), todoId)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, err)
+	}
+	return ctx.JSON(http.StatusOK, "Todo Deleted")
 }
 
 func (h *TodoHandler) CopyById(ctx echo.Context) error{
-	
-	return ctx.String(http.StatusOK, "Copy Todo")
+	id := ctx.Param("id")
+	todoId, err := valueobject.NewTodoId(id)
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
+	todo,err := di.TodoUseCase.CopyById(ctx.Request().Context(), todoId)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, err)
+	}
+	return ctx.JSON(http.StatusOK, todo)
 }
 
 func RouteInit(routeGroup *echo.Group) {

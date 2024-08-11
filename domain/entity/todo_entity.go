@@ -7,51 +7,51 @@ import (
 )
 
 type Todo struct {
-	id    valueobject.TodoId    
-	title      string
-	body 	 *string
-	dueDate   *time.Time
-	completedAt *time.Time
-	createdAt time.Time
-	updatedAt time.Time
+	Id    valueobject.TodoId    
+	Title      string
+	Body 	 *string
+	DueDate   *time.Time
+	CompletedAt *time.Time
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
-func (t *Todo) Id() valueobject.TodoId {
-	return t.id
+func (t *Todo) GetId() valueobject.TodoId {
+	return t.Id
 }
 
-func (t *Todo) Title() string {
-	return t.title
+func (t *Todo) GetTitle() string {
+	return t.Title
 }
 
-func (t *Todo) Body() *string {
-	return t.body
+func (t *Todo) GetBody() *string {
+	return t.Body
 }
 
-func (t *Todo) DueDate() *time.Time {
-	return t.completedAt
+func (t *Todo) GetDueDate() *time.Time {
+	return t.DueDate
 }
 
-func (t *Todo) CompletedAt() *time.Time {
-	return t.completedAt
+func (t *Todo) GetCompletedAt() *time.Time {
+	return t.CompletedAt
 }
 
-func (t *Todo) CreatedAt() time.Time {
-	return t.createdAt
+func (t *Todo) GetCreatedAt() time.Time {
+	return t.CreatedAt
 }
 
-func (t *Todo) UpdatedAt() time.Time {
-	return t.updatedAt
+func (t *Todo) GetUpdatedAt() time.Time {
+	return t.UpdatedAt
 }
 
 func  NewTodo(id valueobject.TodoId, title string, body string, dueDate time.Time, completedAt time.Time, createdAt time.Time, updatedAt time.Time) Todo {
 	return Todo{
-		id: id,
-		title: title,
-		body: &body,
-		dueDate: &dueDate,
-		completedAt: &completedAt,
-		createdAt: createdAt,
-		updatedAt: updatedAt,
+		Id: id,
+		Title: title,
+		Body: &body,
+		DueDate: &dueDate,
+		CompletedAt: &completedAt,
+		CreatedAt: createdAt,
+		UpdatedAt: updatedAt,
 	}
 }
