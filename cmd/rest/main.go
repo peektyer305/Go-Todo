@@ -12,16 +12,17 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/peektyer305/Go-Todo/config"
-	"github.com/peektyer305/Go-Todo/presentation/rest_user"
+	"github.com/peektyer305/Go-Todo/infrastructure"
+	"github.com/peektyer305/Go-Todo/presentation/rest_todo"
 )
 
 func main() {
 	// ToDo: DockerComposeを利用してdatabaseを作成することができたら、以下のコメントアウトを外す
-	//db := infrastructure.NewGormPostgres()
-	//defer func() {
-	//	d, _ := db.DB()
-	//	d.Close()
-	//}()
+	db := infrastructure.NewGormPostgres()
+	defer func() {
+		d, _ := db.DB()
+		d.Close()
+	}()
 
 	engine := echo.New()
 	engine.Debug = true
@@ -33,9 +34,9 @@ func main() {
 		return ctx.String(http.StatusOK, "OK")
 	})
 
-	baseRoute := engine.Group("")
-	v1 := baseRoute.Group("/v1")
-	rest_user.RouteInit(v1)
+	TodoHandler := rest_todo.NewTodoHandler()
+	todoGroup := engine.Group("/todos")
+	rest_todo.RouteInit(todoGroup, TodoHandler)
 
 	go func() {
 		if err := engine.Start(fmt.Sprintf(":%s", config.Conf.GetPort())); err != nil && !errors.Is(err, http.ErrServerClosed) {
