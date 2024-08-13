@@ -35,7 +35,7 @@ func main() {
 	})
 
 	TodoHandler := rest_todo.NewTodoHandler()
-	todoGroup := engine.Group("/todos")
+	todoGroup := engine.Group("/api")
 	rest_todo.RouteInit(todoGroup, TodoHandler)
 
 	go func() {

@@ -1,6 +1,7 @@
 package rest_todo
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -20,7 +21,6 @@ func NewTodoHandler() *TodoHandler {
 	}
 }
 func (h *TodoHandler) FindAllByCriterias(ctx echo.Context) error{
-	
 	return ctx.String(http.StatusOK, "Search Todos")
 }
 
@@ -39,10 +39,12 @@ func (h *TodoHandler) FindById(ctx echo.Context) error{
 }
 
 func (h *TodoHandler) Create(ctx echo.Context) error{
+	fmt.Println("create")
 	var params entity.CreateParams
 	if err := ctx.Bind(&params); err != nil {
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
+	fmt.Println("usecaseへ")
 	todo,err := h.TodoUseCase.Create(ctx.Request().Context(), params)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
@@ -95,10 +97,10 @@ func (h *TodoHandler) CopyById(ctx echo.Context) error{
 
 func RouteInit(routeGroup *echo.Group, handler *TodoHandler) {
 	todo := routeGroup.Group("/todos")
-	todo.GET("/search", (&TodoHandler{}).FindAllByCriterias)
-	todo.GET("/:id", (&TodoHandler{}).FindById)
-	todo.POST("/", (&TodoHandler{}).Create)
-	todo.POST("/:id/copy", (&TodoHandler{}).CopyById)
-	todo.DELETE("/:id/delete",(&TodoHandler{}).DeleteById)
-	todo.PATCH("/:id/update", (&TodoHandler{}).UpdateById)
+	todo.GET("/search", handler.FindAllByCriterias)
+	todo.GET("/:id", handler.FindById)
+	todo.POST("", handler.Create)
+	todo.POST("/:id/copy", handler.CopyById)
+	todo.DELETE("/:id/delete",handler.DeleteById)
+	todo.PATCH("/:id/update", handler.UpdateById)
 }
