@@ -12,7 +12,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/peektyer305/Go-Todo/config"
-	"github.com/peektyer305/Go-Todo/presentation/rest_user"
 )
 
 func main() {

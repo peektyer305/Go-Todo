@@ -4,25 +4,33 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/peektyer305/Go-Todo/application/todo"
+	di "github.com/peektyer305/Go-Todo/di"
 	"github.com/peektyer305/Go-Todo/domain/entity"
 	valueobject "github.com/peektyer305/Go-Todo/domain/value_object"
 )
 
-type TodoHandler struct{
+type TodoHandler struct {
+	TodoUseCase *todo.TodoUseCase
+}
 
+func NewTodoHandler() *TodoHandler {
+	return &TodoHandler{
+		TodoUseCase: di.InitializeTodoUseCase(),
+	}
 }
 func (h *TodoHandler) FindAllByCriterias(ctx echo.Context) error{
 	
 	return ctx.String(http.StatusOK, "Search Todos")
 }
 
-func (h TodoHandler) FindById(ctx echo.Context) error{
+func (h *TodoHandler) FindById(ctx echo.Context) error{
 	idParam := ctx.Param("id")
 	id, err := valueobject.NewTodoId(idParam)
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
-	todo,err := di.TodoUseCase.FindById(ctx.Request().Context(), id)
+	todo,err := h.TodoUseCase.FindById(ctx.Request().Context(), id)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
@@ -35,7 +43,7 @@ func (h *TodoHandler) Create(ctx echo.Context) error{
 	if err := ctx.Bind(&params); err != nil {
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
-	todo,err := di.TodoUseCase.Create(ctx.Request().Context(), params)
+	todo,err := h.TodoUseCase.Create(ctx.Request().Context(), params)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
@@ -52,7 +60,7 @@ func (h *TodoHandler) UpdateById(ctx echo.Context) error{
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
-	todo,err := di.TodoUseCase.UpdateById(ctx.Request().Context(), todoId, params)
+	todo,err := h.TodoUseCase.UpdateById(ctx.Request().Context(), todoId, params)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
@@ -65,7 +73,7 @@ func (h *TodoHandler) DeleteById(ctx echo.Context) error{
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
-	err = di.TodoUseCase.DeleteById(ctx.Request().Context(), todoId)
+	err = h.TodoUseCase.DeleteById(ctx.Request().Context(), todoId)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
@@ -78,7 +86,7 @@ func (h *TodoHandler) CopyById(ctx echo.Context) error{
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
-	todo,err := di.TodoUseCase.CopyById(ctx.Request().Context(), todoId)
+	todo,err := h.TodoUseCase.CopyById(ctx.Request().Context(), todoId)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
