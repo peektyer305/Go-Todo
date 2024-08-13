@@ -3,7 +3,7 @@ package rest_todo
 import (
 	"net/http"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/peektyer305/Go-Todo/application/todo"
 	di "github.com/peektyer305/Go-Todo/di"
 	"github.com/peektyer305/Go-Todo/domain/entity"
@@ -93,7 +93,7 @@ func (h *TodoHandler) CopyById(ctx echo.Context) error{
 	return ctx.JSON(http.StatusOK, todo)
 }
 
-func RouteInit(routeGroup *echo.Group) {
+func RouteInit(routeGroup *echo.Group, handler *TodoHandler) {
 	todo := routeGroup.Group("/todos")
 	todo.GET("/search", (&TodoHandler{}).FindAllByCriterias)
 	todo.GET("/:id", (&TodoHandler{}).FindById)

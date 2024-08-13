@@ -13,6 +13,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/peektyer305/Go-Todo/config"
 	"github.com/peektyer305/Go-Todo/infrastructure"
+	"github.com/peektyer305/Go-Todo/presentation/rest_todo"
 )
 
 func main() {
@@ -33,9 +34,9 @@ func main() {
 		return ctx.String(http.StatusOK, "OK")
 	})
 
-	engine.GET("/todos", func(ctx echo.Context) error {
-		return ctx.String(http.StatusOK, "Hello, World!")
-	})
+	TodoHandler := rest_todo.NewTodoHandler()
+	todoGroup := engine.Group("/todos")
+	rest_todo.RouteInit(todoGroup, TodoHandler)
 
 	go func() {
 		if err := engine.Start(fmt.Sprintf(":%s", config.Conf.GetPort())); err != nil && !errors.Is(err, http.ErrServerClosed) {
