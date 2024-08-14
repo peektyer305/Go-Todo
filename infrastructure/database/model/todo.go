@@ -1,14 +1,15 @@
 package model
 
 import (
+	"fmt"
 	"time"
 
+	"github.com/google/uuid"
 	entity "github.com/peektyer305/Go-Todo/domain/entity"
-	valueobject "github.com/peektyer305/Go-Todo/domain/value_object"
 )
 
 type Todo struct {
-	Id        valueobject.TodoId `gorm:"type:uuid; primaryKey" json:"id"`
+	Id        uuid.UUID `gorm:"type:uuid; primaryKey" json:"id"`
 	Title    string `gorm:"type:varchar(100); not null" json:"title"`
 	Body     *string `gorm:"type:text;" json:"body"`
 	DueDate  *time.Time 
@@ -17,12 +18,14 @@ type Todo struct {
 	UpdatedAt time.Time
 }
 
-func (t *Todo) ToEntity() entity.Todo {
-	return entity.NewTodo( t.Id, t.Title, *t.Body, *t.DueDate, *t.CompletedAt, t.CreatedAt, t.UpdatedAt)
+func (t *Todo) ModelToEntity() entity.Todo {
+	newEntity:= entity.NewTodo(t.Id,t.Title, t.Body, t.DueDate, t.CompletedAt, t.CreatedAt, t.UpdatedAt)
+	fmt.Println("ModelToEntity ok")
+	return newEntity
 }
 
-func NewTodoFromEntity(todo entity.Todo) Todo {
-	return Todo{
+func FromEntityToModel(todo entity.Todo) Todo {
+	 newModel:= Todo{
 		Id: todo.Id,
 		Title: todo.Title,
 		Body: todo.Body,
@@ -32,4 +35,6 @@ func NewTodoFromEntity(todo entity.Todo) Todo {
 		UpdatedAt: todo.UpdatedAt,
 		
 	}
+	fmt.Println("FromEntityToModel ok")
+	return newModel
 }

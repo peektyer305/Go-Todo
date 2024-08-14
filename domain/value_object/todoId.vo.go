@@ -29,8 +29,8 @@ func (t *TodoId) Scan(value interface{}) error {
 	return errors.New("failed to scan TodoId")
 }
 
-func (t TodoId) Value() (interface{}, error) {
-	return t.value.String(), nil
+func (t TodoId) Value() (uuid.UUID, error) {
+	return t.value, nil
 }
 
 func (t TodoId) String() string {
