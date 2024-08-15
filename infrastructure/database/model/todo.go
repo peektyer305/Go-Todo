@@ -1,11 +1,11 @@
 package model
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/google/uuid"
 	entity "github.com/peektyer305/Go-Todo/domain/entity"
+	valueobject "github.com/peektyer305/Go-Todo/domain/value_object"
 )
 
 type Todo struct {
@@ -19,14 +19,21 @@ type Todo struct {
 }
 
 func (t *Todo) ModelToEntity() entity.Todo {
-	newEntity:= entity.NewTodo(t.Id,t.Title, t.Body, t.DueDate, t.CompletedAt, t.CreatedAt, t.UpdatedAt)
-	fmt.Println("ModelToEntity ok")
+	todoId, err := valueobject.NewTodoId(t.Id.String())
+	if err != nil {
+		panic(err)
+	}
+	newEntity := entity.NewTodo(todoId, t.Title, t.Body, t.DueDate, t.CompletedAt, t.CreatedAt, t.UpdatedAt)
 	return newEntity
 }
 
 func FromEntityToModel(todo entity.Todo) Todo {
+	id,err := todo.Id.Value()
+	if err != nil {
+		panic(err)
+	}
 	 newModel:= Todo{
-		Id: todo.Id,
+		Id: id,
 		Title: todo.Title,
 		Body: todo.Body,
 		DueDate: todo.DueDate,
@@ -35,6 +42,5 @@ func FromEntityToModel(todo entity.Todo) Todo {
 		UpdatedAt: todo.UpdatedAt,
 		
 	}
-	fmt.Println("FromEntityToModel ok")
 	return newModel
 }

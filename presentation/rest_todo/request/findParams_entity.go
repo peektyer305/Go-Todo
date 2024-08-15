@@ -3,11 +3,11 @@ package entity
 import (
 	"time"
 
-	"github.com/google/uuid"
+	valueobject "github.com/peektyer305/Go-Todo/domain/value_object"
 )
 
 type FindParams struct {
-	Id   * uuid.UUID `query:"id,omitempty"`
+	Id   * valueobject.TodoId `query:"id,omitempty"`
 	Title *string `query:"title,omitempty"`
 	Body  *string `query:"body,omitempty"`
 	IsCompleted *bool `query:"isCompleted,omitempty"`

@@ -2,10 +2,9 @@ package database
 
 import (
 	"context"
-	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/peektyer305/Go-Todo/domain/entity"
+	valueobject "github.com/peektyer305/Go-Todo/domain/value_object"
 	myError "github.com/peektyer305/Go-Todo/errors"
 	"github.com/peektyer305/Go-Todo/infrastructure/database/model"
 	request "github.com/peektyer305/Go-Todo/presentation/rest_todo/request"
@@ -17,17 +16,19 @@ type TodoRepository struct {
 	Db *gorm.DB
 }
 
-func (t *TodoRepository) FindById (ctx context.Context, id uuid.UUID) (*entity.Todo, error) {
+func (t *TodoRepository) FindById (ctx context.Context, id valueobject.TodoId) (*entity.Todo, error) {
 	conn := t.Db.WithContext(ctx)
 	var todoModel model.Todo
-	fmt.Println("FindById")
-	if err := conn.Where("id = ?", id.String()).First(&todoModel).Error; err != nil {
+	idValue, err := id.Value()
+	if err != nil {
+		return nil, err
+	}
+	if err := conn.Where("id = ?", idValue).First(&todoModel).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
             return nil, myError.New("todo not found")
         }
 		return nil, err
 		}
-	fmt.Println("FindById ok")
 	entity := todoModel.ModelToEntity()
 	return &entity, nil
 } 
@@ -69,11 +70,13 @@ func (t *TodoRepository) FindAllByQuery(ctx context.Context, params request.Find
 	if err := query.Find(&todoModels).Error; err != nil {
 		return nil, err
 	}
-	fmt.Println("query",query)
 	var todoEntities []entity.Todo
-	fmt.Println("todos:",todoModels)
 	for _, todoModel := range todoModels {
 		todoEntities = append(todoEntities, todoModel.ModelToEntity())
+	}
+	//404エラーの処理
+	if len(todoEntities) == 0 {
+		return nil, myError.New("todo not found")
 	}
 
 	return todoEntities, nil
@@ -85,13 +88,16 @@ func (t *TodoRepository) Save(ctx context.Context, todo entity.Todo) (*entity.To
 	if err := conn.Save(&todoModel).Error; err != nil {
 		return nil, err
 	}
-	fmt.Println("Save ok")
 	return &todo, nil
 }
 
-func (t *TodoRepository) DeleteById(ctx context.Context, id uuid.UUID) error {
+func (t *TodoRepository) DeleteById(ctx context.Context, id valueobject.TodoId) error {
 	conn := t.Db.WithContext(ctx)
-	if err := conn.Delete(&model.Todo{}, id).Error; err != nil {
+	idValue, err := id.Value()
+	if err != nil {
+		return err
+	}
+	if err := conn.Delete(&model.Todo{}, idValue).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return myError.New("todo not found")
 		}

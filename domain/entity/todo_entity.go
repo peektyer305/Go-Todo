@@ -3,11 +3,11 @@ package entity
 import (
 	"time"
 
-	"github.com/google/uuid"
+	valueobject "github.com/peektyer305/Go-Todo/domain/value_object"
 )
 
 type Todo struct {
-	Id    uuid.UUID
+	Id    valueobject.TodoId
 	Title      string
 	Body 	 *string
 	DueDate   *time.Time
@@ -16,7 +16,7 @@ type Todo struct {
 	UpdatedAt time.Time
 }
 
-func  NewTodo(id uuid.UUID, title string, body *string, dueDate *time.Time, completedAt *time.Time, createdAt time.Time, updatedAt time.Time) Todo {
+func  NewTodo(id valueobject.TodoId, title string, body *string, dueDate *time.Time, completedAt *time.Time, createdAt time.Time, updatedAt time.Time) Todo {
 	return Todo{
 		Id: id,
 		Title: title,

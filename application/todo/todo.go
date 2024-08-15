@@ -2,11 +2,11 @@ package todo
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/google/uuid"
 	"github.com/peektyer305/Go-Todo/domain/entity"
 	"github.com/peektyer305/Go-Todo/domain/repository"
+	valueobject "github.com/peektyer305/Go-Todo/domain/value_object"
 	request "github.com/peektyer305/Go-Todo/presentation/rest_todo/request"
 )
 
@@ -22,8 +22,7 @@ func (t *TodoUseCase) FindAllByCriterias(ctx context.Context, f request.FindPara
 	return todos, nil
 }
 
-func (t *TodoUseCase) FindById(ctx context.Context, id uuid.UUID) (*entity.Todo, error) {
-	fmt.Println("repositoryへ")
+func (t *TodoUseCase) FindById(ctx context.Context, id valueobject.TodoId) (*entity.Todo, error) {
 	todo,err:= t.TodoRepository.FindById(ctx, id)
 	if err != nil {
 		return nil, err
@@ -33,8 +32,13 @@ func (t *TodoUseCase) FindById(ctx context.Context, id uuid.UUID) (*entity.Todo,
 
 func (t *TodoUseCase) Create (ctx context.Context, params request.CreateParams) (*entity.Todo, error) {
 	
+	todoId, err := valueobject.NewTodoId(uuid.New().String())
+	if err != nil {
+		return nil, err
+	}
+	
 	todo := entity.Todo{
-		Id:      uuid.New(),
+		Id:      todoId,
 		Title:   params.Title,
 		Body:    params.Body,
 		DueDate: params.DueDate,
@@ -46,7 +50,7 @@ func (t *TodoUseCase) Create (ctx context.Context, params request.CreateParams) 
 	return createdTodo, nil
 }
 
-func (t *TodoUseCase) UpdateById (ctx context.Context, id uuid.UUID, params request.UpdateParams) (*entity.Todo, error) {
+func (t *TodoUseCase) UpdateById (ctx context.Context, id valueobject.TodoId, params request.UpdateParams) (*entity.Todo, error) {
 	todo, err := t.TodoRepository.FindById(ctx, id)
 	if err != nil {
 		return nil, err
@@ -70,7 +74,7 @@ func (t *TodoUseCase) UpdateById (ctx context.Context, id uuid.UUID, params requ
 	return updatedTodo, nil
 }
 
-func (t *TodoUseCase) DeleteById (ctx context.Context,id uuid.UUID) error {
+func (t *TodoUseCase) DeleteById (ctx context.Context,id valueobject.TodoId) error {
 	err := t.TodoRepository.DeleteById(ctx, id)
 	if err != nil {
 		return err
@@ -78,13 +82,17 @@ func (t *TodoUseCase) DeleteById (ctx context.Context,id uuid.UUID) error {
 	return nil
 }
 
-func (t *TodoUseCase) CopyById (ctx context.Context, id uuid.UUID) (*entity.Todo, error) {
+func (t *TodoUseCase) CopyById (ctx context.Context, id valueobject.TodoId) (*entity.Todo, error) {
 	targetTodo, err := t.TodoRepository.FindById(ctx, id)
 	if err != nil {
 		return nil, err
 	}
+	newTodoId, err := valueobject.NewTodoId(uuid.New().String())
+		if err != nil {
+			return nil, err
+		}
 	copiedTodo := entity.Todo{
-		Id: id,
+		Id:    newTodoId,
 		Title: targetTodo.Title + "(のコピー)",
 	}
 	createdTodo, err := t.TodoRepository.Save(ctx, copiedTodo)
